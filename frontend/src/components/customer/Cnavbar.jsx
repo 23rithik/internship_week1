@@ -9,13 +9,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // Import useLocation for determining the current page
 
-const pages = ['Home', 'About', 'Contact us'];
+const pages = ['Home', 'View Tickets', 'Review'];
 
-function Navbar() {
+function Cnavbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const location = useLocation();
+  const location = useLocation(); // Get the current location
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -26,25 +26,20 @@ function Navbar() {
   };
 
   // Function to determine if a page is active
-  const isActive = (path) => {
-    if (path === '/' && location.pathname === '/') {
-      return true;
-    }
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
     <AppBar
       position="fixed"
       sx={{
-        width: 'calc(100% - 160px)',
-        left: '80px',
-        top: '30px',
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
-        backdropFilter: 'blur(15px)',
-        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)',
-        borderRadius: '8px',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
+        width: 'calc(100% - 160px)', // Slightly smaller than the full width of the page
+        left: '80px', // Adjust left margin to center the Navbar
+        top: '30px', // Add space from the top of the viewport
+        backgroundColor: 'rgba(255, 255, 255, 0.4)', // Adjusted transparency
+        backdropFilter: 'blur(15px)', // Increased blur effect for stronger glass look
+        boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.2)', // Added subtle shadow to enhance depth
+        borderRadius: '8px', // Rounded corners for a more modern look
+        border: '1px solid rgba(255, 255, 255, 0.2)' // Light border to enhance the glass effect
       }}
     >
       <Container maxWidth="xl">
@@ -111,14 +106,14 @@ function Navbar() {
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{
-                    backgroundColor: isActive(`/${page === 'Home' ? '' : page.toLowerCase().replace(' ', '')}`) ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
+                    backgroundColor: isActive(page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`) ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
                   }}
                 >
-                  <Link to={page === 'Home' ? '/' : `/${page.toLowerCase().replace(' ', '')}`} style={{ textDecoration: 'none' }}>
+                  <Link to={page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`} style={{ textDecoration: 'none' }}>
                     <Typography
                       sx={{
                         textAlign: 'center',
-                        color: isActive(`/${page === 'Home' ? '' : page.toLowerCase().replace(' ', '')}`) ? 'primary.main' : 'inherit',
+                        color: isActive(page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`) ? 'primary.main' : 'inherit',
                       }}
                     >
                       {page}
@@ -136,19 +131,19 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: isActive(`/${page === 'Home' ? '' : page.toLowerCase().replace(' ', '')}`) ? 'primary.main' : 'black',
+                  color: isActive(page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`) ? 'primary.main' : 'black',
                   display: 'block',
-                  backgroundColor: isActive(`/${page === 'Home' ? '' : page.toLowerCase().replace(' ', '')}`) ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
+                  backgroundColor: isActive(page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`) ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
                   '&:hover': {
-                    color: 'primary.main',
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
-                    transform: 'translateY(-2px)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    color: 'primary.main', // Change text color on hover
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Optional background on hover
+                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', // 3D shadow effect
+                    transform: 'translateY(-2px)', // Lift the element
+                    transition: 'transform 0.2s, box-shadow 0.2s', // Smooth transition
                   },
                 }}
               >
-                <Link to={page === 'Home' ? '/' : `/${page.toLowerCase().replace(' ', '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={page === 'Home' ? '/customer_home' : `/${page.toLowerCase().replace(' ', '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   {page}
                 </Link>
               </Button>
@@ -156,33 +151,14 @@ function Navbar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            <Link to="/signup" style={{ textDecoration: 'none' }}>
-              <Button
-                sx={{
-                  my: 2,
-                  color: isActive('/signup') ? 'primary.main' : 'black',
-                  display: 'block',
-                  backgroundColor: isActive('/signup') ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
-                  '&:hover': {
-                    color: 'primary.main',
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
-                    transform: 'translateY(-2px)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  },
-                }}
-              >
-                Sign Up
-              </Button>
-            </Link>
-            <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <Button
                 sx={{
                   my: 2,
                   color: isActive('/login') ? 'primary.main' : 'black',
                   display: 'block',
                   backgroundColor: isActive('/login') ? 'rgba(0, 0, 0, 0.1)' : 'inherit',
-                  '&:hover': {
+                  '&:hover': { 
                     color: 'primary.main',
                     backgroundColor: 'rgba(0, 0, 0, 0.1)',
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
@@ -191,7 +167,7 @@ function Navbar() {
                   },
                 }}
               >
-                Login
+                Logout
               </Button>
             </Link>
           </Box>
@@ -201,4 +177,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Cnavbar;

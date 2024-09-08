@@ -146,8 +146,6 @@ const Homepage = () => {
 
 
 
-        {/* Add more sections like Most Popular, Coming Soon, etc. in a similar way */}
-        {/* You can create separate arrays for each category and map them into different grids */}
       </div>
         
         <Footer/>
