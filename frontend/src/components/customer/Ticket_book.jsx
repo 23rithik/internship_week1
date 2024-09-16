@@ -33,7 +33,20 @@ const TicketBook = () => {
     const fetchMovie = async () => {
       try {
         const response = await axiosInstance.get(`http://localhost:5000/api/bookmovie/${id}`);
-        setMovie(response.data);
+        const movieData = response.data;
+
+        // Set movie data
+        setMovie(movieData);
+
+        // Set availability based on no_of_seats
+        if (movieData.no_of_seats == 0) {
+          setAvailability('Housefull');
+        } else if (movieData.no_of_seats > 60) {
+          setAvailability('Available');
+        } else {
+          setAvailability('Fast Filling');
+        }
+
         setLoading(false);
       } catch (error) {
         setError('Error fetching movie details');
@@ -51,47 +64,42 @@ const TicketBook = () => {
   }, [noOfSeats]);
 
   const handleBookTicket = async () => {
-    const token = localStorage.getItem('token');  // Retrieve the token from localStorage
-  
-    // Check if availability is either "Available" or "Fast Filling"
-    if ((availability === 'Available' || availability === 'Fast Filling') && seatNumbers.length > 0) {
-      try {
-        const ticketRate = parseFloat(movie.ticket_rate);  // Convert ticket_rate to a number
-        const totalPrice = noOfSeats * ticketRate;  // Calculate total price
-  
-        const response = await axiosInstance.post(
-          `http://localhost:5000/api/tickets`,
-          {
-            movie_name: movie.movie_name,
-            noOfSeats,
-            totalPrice,
-            category: movie.category,
-            language: movie.languages,
-            seatNumbers  // Pass the array of seat numbers
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`  // Attach token to the Authorization header
-            }
+  if ((availability === 'Available' || availability === 'Fast Filling') && seatNumbers.length > 0) {
+    try {
+      const ticketRate = parseFloat(movie.ticket_rate);
+      const totalPrice = noOfSeats * ticketRate;
+      
+      // POST request to store the booking details
+      const response = await axiosInstance.post(
+        `http://localhost:5000/api/tickets`,
+        {
+          movie_name: movie.movie_name,
+          noOfSeats,
+          totalPrice,
+          category: movie.category,
+          language: movie.languages,
+          seatNumbers,  // Pass seatNumbers here
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
-  
-        const message = `Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`;
-        alert(message);  // Display alert with the confirmation message
-        setConfirmationMessage(message);
-        setSeatNumbers(generateUniqueSeatNumbers(noOfSeats));  // Generate new random seat numbers
-        setNoOfSeats(1);
+        }
+      );
 
-        // Optionally update the availability status based on your logic
-        // setAvailability('Fast Filling');  // Uncomment this if you want to change the status after booking
-      } catch (error) {
-        setError('Error booking ticket');
-      }
-    } else {
-      setError('Please select the number of seats and ensure tickets are available.');
+      alert(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
+      setConfirmationMessage(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
+      setSeatNumbers(generateUniqueSeatNumbers(noOfSeats));  // Reset seat numbers for the next booking
+      setNoOfSeats(1);
+    } catch (error) {
+      setError('Error booking ticket');
     }
-  };
+  } else {
+    setError('Please select the number of seats and ensure tickets are available.');
+  }
+};
 
+  
   if (loading) return <CircularProgress style={{ display: 'block', margin: 'auto' }} />;
   if (error) return <div>{error}</div>;
   if (!movie) return <div>No movie found</div>;
@@ -115,7 +123,7 @@ const TicketBook = () => {
                 value={availability}
                 onChange={(e) => setAvailability(e.target.value)}
                 label="Availability"
-                disabled // Disable the dropdown
+                disabled // Disable the dropdown as availability is calculated automatically
               >
                 <MenuItem value="Available">Available</MenuItem>
                 <MenuItem value="Fast Filling">Fast Filling</MenuItem>
@@ -143,12 +151,17 @@ const TicketBook = () => {
                   color="primary"
                   onClick={handleBookTicket}
                   style={{ marginTop: '20px' }}
+                  disabled={availability === 'Housefull'}  // Disable button if Housefull
                 >
                   Book Ticket
                 </Button>
               </>
             )}
-            {/* {confirmationMessage && <Typography variant="h6" color="primary">{confirmationMessage}</Typography>} */}
+            {availability === 'Housefull' && (
+              <Typography variant="body1" color="error">
+                No seats available. The show is Housefull.
+              </Typography>
+            )}
           </CardContent>
         </Card>
       </div>

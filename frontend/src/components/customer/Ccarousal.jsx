@@ -26,7 +26,7 @@ const Ccarousel = () => {
   };
 
   return (
-    <Link to="/signup" style={{ textDecoration: 'none', color: 'inherit' }}>
+    // <Link to="/signup" style={{ textDecoration: 'none', color: 'inherit' }}>
       <div 
         style={{ 
           width: '100%', 
@@ -55,7 +55,7 @@ const Ccarousel = () => {
           ))}
         </Slider>
       </div>
-    </Link>
+    // </Link>
   );
 };
 

@@ -6,7 +6,7 @@ const TicketSchema = new mongoose.Schema({
   totalPrice: { type: Number, required: true },
   category: { type: String, required: true },
   language: { type: String, required: true },
-  seatNumbers: [{ type: Number, required: true }], // Changed to an array of numbers
+  seatNumbers: [{ type: Number, required: true }], // Ensure seatNumbers is an array
   email: { type: String, required: true }
 });
 

@@ -13,6 +13,9 @@ import Admin_home from './components/admin/Admin_home';
 import { Route, Routes } from 'react-router-dom';
 import Movie_Book from './components/customer/Movie_book';
 import TicketBook from './components/customer/Ticket_book';
+import Review from './components/customer/Review';
+import ListReview from './components/customer/ListReview';
+// import TicketsPage from './components/customer/TicketsPage';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,6 +33,9 @@ function App() {
         <Route path='/viewtickets' element={<Viewtickets />} />
         <Route path='/movie_book/:id' element={<Movie_Book />} />
         <Route path='/tickets/:id' element={<TicketBook />} />
+        <Route path='/review' element={<Review />} />
+        <Route path='/listreview/:movieName' element={<ListReview />} />
+        {/* <Route path='/showticket' element={<TicketsPage />} /> */}
         
         <Route path='/admin_home' element={<Admin_home />} />
       </Routes>
