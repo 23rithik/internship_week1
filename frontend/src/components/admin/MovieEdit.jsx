@@ -22,7 +22,7 @@ const MovieEdit = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:5000/api/get_movies/${movie_name}`); // Changed API to get_movies
+        const response = await axiosInstance.get(`internship-week1backend.vercel.app/api/get_movies/${movie_name}`); // Changed API to get_movies
         setMovieData(response.data);
       } catch (error) {
         console.error('Error fetching movie details:', error);
@@ -35,7 +35,7 @@ const MovieEdit = () => {
   const handleSave = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
     try {
-      await axiosInstance.put(`http://localhost:5000/api/edit_movies/${movie_name}`, movieData); // Updated API endpoint
+      await axiosInstance.put(`internship-week1backend.vercel.app/api/edit_movies/${movie_name}`, movieData); // Updated API endpoint
       alert('Movie updated successfully!');
       navigate('/admin_home'); // Navigate back to the Admin home or another page
     } catch (error) {

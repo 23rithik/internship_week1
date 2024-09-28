@@ -33,7 +33,7 @@ const ListReview = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:5000/api/viewreview/${encodeURIComponent(movieName)}`);
+        const response = await axiosInstance.get(`internship-week1backend.vercel.app/api/viewreview/${encodeURIComponent(movieName)}`);
         setReviews(response.data);
         setLoading(false);
       } catch (error) {

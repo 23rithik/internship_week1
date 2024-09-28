@@ -19,7 +19,7 @@ const Review = () => {
       try {
         setLoading(true);
         // Update API endpoint to fetch from tickets collection
-        const response = await axiosInstance.get('http://localhost:5000/api/tickets');
+        const response = await axiosInstance.get('internship-week1backend.vercel.app/api/tickets');
         // Remove duplicate movie names
         const uniqueMovies = Array.from(
           new Map(response.data.map(movie => [movie.movie_name, movie])).values()
@@ -38,7 +38,7 @@ const Review = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axiosInstance.post('http://localhost:5000/api/reviews', {
+      await axiosInstance.post('internship-week1backend.vercel.app/api/reviews', {
         movie_name: selectedMovie,
         review,
         rating

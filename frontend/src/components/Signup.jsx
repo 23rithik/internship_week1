@@ -53,7 +53,7 @@ const Signup = () => {
     e.preventDefault(); 
     if (validate()) {
       try {   
-        const response = await axiosInstance.post('http://localhost:5000/api/adduser', formData);
+        const response = await axiosInstance.post('internship-week1backend.vercel.app/api/adduser', formData);
         alert('Registration successful!');
         setErrorMessage('');
         setFormData({

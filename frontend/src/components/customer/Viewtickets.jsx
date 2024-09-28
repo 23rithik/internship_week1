@@ -16,7 +16,7 @@ const ViewTickets = () => {
     const fetchTickets = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get('http://localhost:5000/api/tickets');
+        const response = await axiosInstance.get('internship-week1backend.vercel.app/api/tickets');
         setTickets(response.data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
@@ -36,7 +36,7 @@ const ViewTickets = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:5000/api/movies');
+        const response = await axiosInstance.get('internship-week1backend.vercel.app/api/movies');
         const movieList = response.data;
         const movieMap = movieList.reduce((acc, movie) => {
           acc[movie.movie_name] = movie;

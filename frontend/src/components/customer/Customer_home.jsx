@@ -20,7 +20,7 @@ const Customer_home = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:5000/api/movies');
+        const response = await axiosInstance.get('internship-week1backend.vercel.app/api/movies');
         const movieList = response.data;
         const firstSet = movieList.slice(0, 3); // First 3 movies
         const secondSet = movieList.slice(3); // Remaining movies

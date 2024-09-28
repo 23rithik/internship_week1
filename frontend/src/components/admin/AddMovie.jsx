@@ -31,7 +31,7 @@ const AddMovie = () => {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/add_movie', newMovie);
+      await axios.post('internship-week1backend.vercel.app/api/add_movie', newMovie);
       // Reset fields
       setMovieName('');
       setImage('');

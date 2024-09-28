@@ -32,7 +32,7 @@ const TicketBook = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:5000/api/bookmovie/${id}`);
+        const response = await axiosInstance.get(`internship-week1backend.vercel.app/api/bookmovie/${id}`);
         const movieData = response.data;
 
         // Set movie data
@@ -72,7 +72,7 @@ const TicketBook = () => {
   
         // POST request to store the booking details
         const response = await axiosInstance.post(
-          `http://localhost:5000/api/tickets`,
+          `internship-week1backend.vercel.app/api/tickets`,
           {
             movie_name: movie.movie_name,
             noOfSeats,

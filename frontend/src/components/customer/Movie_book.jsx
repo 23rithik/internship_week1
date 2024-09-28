@@ -16,11 +16,11 @@ const Movie_Book = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:5000/api/bookmovie/${id}`);
+        const response = await axiosInstance.get(`internship-week1backend.vercel.app/api/bookmovie/${id}`);
         setMovie(response.data);
         
         // Fetch reviews
-        const reviewResponse = await axiosInstance.get(`http://localhost:5000/api/viewreviews/${response.data.movie_name}`);
+        const reviewResponse = await axiosInstance.get(`internship-week1backend.vercel.app/api/viewreviews/${response.data.movie_name}`);
         const reviews = reviewResponse.data;
 
         // Calculate average rating

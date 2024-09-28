@@ -18,7 +18,7 @@ const Admin_home = () => {
   const handleDeleteMovie = async (movie_name) => {
     if (window.confirm("Are you sure you want to delete this movie?")) {
       try {
-        await axiosInstance.delete(`http://localhost:5000/api/movies/${movie_name}`);
+        await axiosInstance.delete(`internship-week1backend.vercel.app/api/movies/${movie_name}`);
         alert('Movie deleted successfully!');
         setMovies(movies.filter(movie => movie.movie_name !== movie_name));
       } catch (error) {
@@ -30,7 +30,7 @@ const Admin_home = () => {
 
   const fetchAverageRatings = async (movie_name) => {
     try {
-      const response = await axiosInstance.get(`http://localhost:5000/api/reviews1/${movie_name}`);
+      const response = await axiosInstance.get(`internship-week1backend.vercel.app/api/reviews1/${movie_name}`);
       const reviews = response.data;
 
       if (reviews.length > 0) {
@@ -48,7 +48,7 @@ const Admin_home = () => {
 
   const fetchTicketsSoldPerDay = async () => {
     try {
-      const response = await axiosInstance.get('http://localhost:5000/api/perday/tickets/sold');
+      const response = await axiosInstance.get('internship-week1backend.vercel.app/api/perday/tickets/sold');
       setTicketsSoldPerDay(response.data);
     } catch (error) {
       console.error('Error fetching tickets sold per day:', error);
@@ -57,7 +57,7 @@ const Admin_home = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axiosInstance.get('http://localhost:5000/api/movies');
+      const response = await axiosInstance.get('internship-week1backend.vercel.app/api/movies');
       const movieList = response.data;
       setMovies(movieList);
 

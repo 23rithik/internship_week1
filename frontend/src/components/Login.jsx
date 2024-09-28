@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axiosInstance.post('http://localhost:5000/api/login', { email, password });
+      const response = await axiosInstance.post('internship-week1backend.vercel.app/api/login', { email, password });
       // Send login request to the server
       // const response = await axios.post('http://localhost:4000/api/login', { email, password });
       
