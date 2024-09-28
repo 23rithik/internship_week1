@@ -64,40 +64,43 @@ const TicketBook = () => {
   }, [noOfSeats]);
 
   const handleBookTicket = async () => {
-  if ((availability === 'Available' || availability === 'Fast Filling') && seatNumbers.length > 0) {
-    try {
-      const ticketRate = parseFloat(movie.ticket_rate);
-      const totalPrice = noOfSeats * ticketRate;
-      
-      // POST request to store the booking details
-      const response = await axiosInstance.post(
-        `http://localhost:5000/api/tickets`,
-        {
-          movie_name: movie.movie_name,
-          noOfSeats,
-          totalPrice,
-          category: movie.category,
-          language: movie.languages,
-          seatNumbers,  // Pass seatNumbers here
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
+    if ((availability === 'Available' || availability === 'Fast Filling') && seatNumbers.length > 0) {
+      try {
+        const ticketRate = parseFloat(movie.ticket_rate);
+        const totalPrice = noOfSeats * ticketRate;
+        const bookingDate = new Date();  // Get the current date
+  
+        // POST request to store the booking details
+        const response = await axiosInstance.post(
+          `http://localhost:5000/api/tickets`,
+          {
+            movie_name: movie.movie_name,
+            noOfSeats,
+            totalPrice,
+            category: movie.category,
+            language: movie.languages,
+            seatNumbers,  // Pass seatNumbers here
+            bookingDate  // Include the booking date here
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      );
-
-      alert(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
-      setConfirmationMessage(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
-      setSeatNumbers(generateUniqueSeatNumbers(noOfSeats));  // Reset seat numbers for the next booking
-      setNoOfSeats(1);
-    } catch (error) {
-      setError('Error booking ticket');
+        );
+  
+        alert(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
+        setConfirmationMessage(`Tickets booked successfully! Seats: ${seatNumbers.join(', ')}. Confirmation email sent.`);
+        setSeatNumbers(generateUniqueSeatNumbers(noOfSeats));  // Reset seat numbers for the next booking
+        setNoOfSeats(1);
+      } catch (error) {
+        setError('Error booking ticket');
+      }
+    } else {
+      setError('Please select the number of seats and ensure tickets are available.');
     }
-  } else {
-    setError('Please select the number of seats and ensure tickets are available.');
-  }
-};
+  };
+  
 
   
   if (loading) return <CircularProgress style={{ display: 'block', margin: 'auto' }} />;

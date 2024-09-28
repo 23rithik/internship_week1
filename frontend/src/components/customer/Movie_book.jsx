@@ -20,7 +20,7 @@ const Movie_Book = () => {
         setMovie(response.data);
         
         // Fetch reviews
-        const reviewResponse = await axiosInstance.get(`http://localhost:5000/api/viewreview/${response.data.movie_name}`);
+        const reviewResponse = await axiosInstance.get(`http://localhost:5000/api/viewreviews/${response.data.movie_name}`);
         const reviews = reviewResponse.data;
 
         // Calculate average rating

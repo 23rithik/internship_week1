@@ -24,7 +24,7 @@ const Login = () => {
 
       // Check if the user is an admin based on email or role
       if (email === 'admin@gmail.com') {
-        navigate('admin_home'); // Admin route
+        navigate('/admin_home'); // Admin route
       } else {
         navigate('/customer_home'); // Customer route
       }

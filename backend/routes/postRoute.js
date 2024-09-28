@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const Userdata = require('../model/Userdata'); // Path to your Userdata model
 const Login = require('../model/Login'); // Path to your Login model (new collection)
 const Movie = require('../model/Movie');
+const Review = require('../model/Review');
 // const Movies = require('../model/Movie');
 
 
@@ -120,5 +121,140 @@ router.get('/bookmovie/:id', async (req, res) => {
     }
   });
 
+// DELETE endpoint to delete a movie by ID
+router.delete('/movies/:id', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const deletedMovie = await Movie.findByIdAndDelete(movieId);
+
+        if (!deletedMovie) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+
+        res.status(200).json({ message: 'Movie deleted successfully', deletedMovie });
+    } catch (error) {
+        console.error('Error deleting movie:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+
+
+
+// GET /api/avgrating - Fetch all movies with average ratings
+router.get('/avgrating', async (req, res) => {
+    try {
+        // Fetch all movies
+        const movies = await Movie.find();
+
+        // Fetch and calculate the average rating for each movie based on movie_name
+        const moviesWithRatings = await Promise.all(movies.map(async (movie) => {
+            const reviews = await Review.find({ movie_name: movie.movie_name });
+
+            let averageRating = 'N/A';
+
+            if (reviews.length > 0) {
+                const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+                averageRating = (totalRating / reviews.length).toFixed(1);
+                 // Calculate average rating
+            }
+
+            return {
+                ...movie.toObject(),
+                averageRating, // Attach the average rating to each movie
+            };
+        }));
+        
+        res.status(200).json(moviesWithRatings);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch movies' });
+    }
+});
+
+// GET /api/reviews1/:movie_name - Fetch reviews for a specific movie by name
+router.get('/reviews1/:movie_name', async (req, res) => {
+    const { movie_name } = req.params;
+
+    try {
+        const reviews = await Review.find({ movie_name });
+        res.status(200).json(reviews);
+        console.log(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch reviews' });
+    }
+});
+
+
+
+// Get movie details by movie name
+router.get('/get_movies/:movie_name', async (req, res) => {
+    try {
+      const movie = await Movie.findOne({ movie_name: req.params.movie_name });
+      if (!movie) {
+        return res.status(404).json({ message: 'Movie not found' });
+      }
+      res.json(movie);
+    } catch (error) {
+      console.error('Error fetching movie:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+  
+  // Update movie details
+  router.put('/edit_movies/:movie_name', async (req, res) => {
+    try {
+      const updatedMovie = await Movie.findOneAndUpdate(
+        { movie_name: req.params.movie_name },
+        req.body,
+        { new: true }
+      );
+  
+      if (!updatedMovie) {
+        return res.status(404).json({ message: 'Movie not found' });
+      }
+  
+      res.json(updatedMovie);
+    } catch (error) {
+      console.error('Error updating movie:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+
+  // POST endpoint to add a movie
+router.post('/add_movie', async (req, res) => {
+    try {
+        const { movie_name, image, category, languages, description, cast, ticket_rate, no_of_seats } = req.body;
+
+        // Validate required fields
+        if (!movie_name || !image || !category || !languages || !description || !cast || !ticket_rate || !no_of_seats) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        // Create new movie object
+        const newMovie = new Movie({
+            movie_name,
+            image,
+            category,
+            languages,
+            description,
+            cast,
+            ticket_rate,
+            no_of_seats,
+        });
+
+        // Save the new movie to the database
+        const savedMovie = await newMovie.save();
+
+        // Respond with the saved movie
+        res.status(201).json({ message: 'Movie added successfully', data: savedMovie });
+    } catch (error) {
+        console.error('Error adding movie:', error);
+        res.status(500).json({ error: 'Error adding movie' });
+    }
+});
 
 module.exports = router;

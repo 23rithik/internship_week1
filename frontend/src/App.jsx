@@ -7,7 +7,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Customer_home from './components/customer/Customer_home';
 import Viewtickets from './components/customer/Viewtickets';
-import Admin_home from './components/admin/Admin_home';
+
 // import Movie_book from './components/customer/Movie_book'; // Ensure correct import path
 
 import { Route, Routes } from 'react-router-dom';
@@ -15,6 +15,9 @@ import Movie_Book from './components/customer/Movie_book';
 import TicketBook from './components/customer/Ticket_book';
 import Review from './components/customer/Review';
 import ListReview from './components/customer/ListReview';
+import Admin_home from './components/admin/Admin_home';
+import MovieEdit from './components/admin/MovieEdit';
+import AddMovie from './components/admin/AddMovie';
 // import TicketsPage from './components/customer/TicketsPage';
 
 function App() {
@@ -38,6 +41,8 @@ function App() {
         {/* <Route path='/showticket' element={<TicketsPage />} /> */}
         
         <Route path='/admin_home' element={<Admin_home />} />
+        <Route path="/edit_movie/:movie_name" element={<MovieEdit />} />
+        <Route path="/addmovies" element={<AddMovie />} />
       </Routes>
     </>
   );

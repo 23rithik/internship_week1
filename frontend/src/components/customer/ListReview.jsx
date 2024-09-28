@@ -37,7 +37,7 @@ const ListReview = () => {
         setReviews(response.data);
         setLoading(false);
       } catch (error) {
-        setError('Error fetching reviews');
+        setError('no reviews');
         setLoading(false);
       }
     };

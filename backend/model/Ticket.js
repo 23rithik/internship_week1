@@ -7,7 +7,8 @@ const TicketSchema = new mongoose.Schema({
   category: { type: String, required: true },
   language: { type: String, required: true },
   seatNumbers: [{ type: Number, required: true }], // Ensure seatNumbers is an array
-  email: { type: String, required: true }
+  email: { type: String, required: true },
+  bookingDate: { type: Date, default: Date.now } // Add booking date field
 });
 
 module.exports = mongoose.model('Ticket', TicketSchema);
